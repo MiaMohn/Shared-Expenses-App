@@ -6,6 +6,7 @@ import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
 import com.autentia.sharedexpenses.shared_expenses_app.Services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,7 @@ public class RestUserController {
 
         User user = new User(userRequest.getId(), userRequest.getName());
         this.userService.createUser(user);
+
         return ResponseEntity.ok("User created successfully.");
 
     }
@@ -53,10 +55,17 @@ public class RestUserController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") long id){
 
-        return userService.getUserById(id) //Transformar List<User> en List<UserResponse>
-                .map(UserResponse::new)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        try {
+
+            return userService.getUserById(id) //Transformar List<User> en List<UserResponse>
+                    .map(UserResponse::new)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
     }
 
     //Update user:
@@ -69,8 +78,8 @@ public class RestUserController {
         try {
             User user = userService.updateUser(userToUpdate, id);
             return ResponseEntity.ok(new UserResponse(user));
-        } catch(RuntimeException e) {
-            return ResponseEntity.notFound().build();
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 
     }

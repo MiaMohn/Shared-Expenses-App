@@ -1,7 +1,9 @@
 package com.autentia.sharedexpenses.shared_expenses_app.Repository.Entities;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 @Entity
 @Table(name="User")
 public class UserEntity {

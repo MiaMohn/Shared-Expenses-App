@@ -44,6 +44,7 @@ public class RestExpenseController {
     @PostMapping
 
     public ResponseEntity<String> createExpense(@RequestBody ExpenseRequest expenseRequest) {
+
         this.expenseService.createExpense(expenseRequest.getUser_id(), expenseRequest.getDescription(), expenseRequest.getAmount());
         return ResponseEntity.ok("Expense created successfully.");
     }

@@ -1,19 +1,11 @@
 package com.autentia.sharedexpenses.shared_expenses_app.Domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 import java.util.Objects;
 
-@Entity
 public class User {
 
     //Variables
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
+    private Long id;
     private String name;
 
     //Full constructor
@@ -36,7 +28,9 @@ public class User {
         this.name = name;
     }
 
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object o) {

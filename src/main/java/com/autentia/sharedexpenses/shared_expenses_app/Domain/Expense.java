@@ -1,7 +1,6 @@
 package com.autentia.sharedexpenses.shared_expenses_app.Domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -9,16 +8,12 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-@Entity
 public class Expense {
 
     //Variables
-    @Id
     private final Long id;
     private String description;
     private double amount;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.S", timezone = "Europe/Madrid")
     private Timestamp expenseDate;
@@ -62,9 +57,10 @@ public class Expense {
     }
 
     public Timestamp getExpenseDate() {
-        LocalDateTime now = this.expenseDate.toLocalDateTime();
-        ZonedDateTime zonedDateTime = now.atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of("Europe/Madrid"));
-        return Timestamp.from(zonedDateTime.toInstant());
+        //LocalDateTime now = this.expenseDate.toLocalDateTime();
+        //ZonedDateTime zonedDateTime = now.atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of("Europe/Madrid"));
+        //return Timestamp.from(zonedDateTime.toInstant());
+        return this.expenseDate;
     }
 
     public void setExpenseDate(Timestamp expenseDate) {

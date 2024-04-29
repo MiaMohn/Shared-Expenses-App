@@ -59,12 +59,18 @@ public class ExpenseService {
 
     public Expense updateExpense(long userId, long expenseId, String description, double amount){
 
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount can't be 0 or less");
+        }
+
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
         Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new RuntimeException("Expense not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
         expense.setDescription(description);
         expense.setAmount(amount);
         expense.setUser(user);
+        expense.setExpenseDate(currentTimestamp);
 
         expenseRepository.update(expense, expenseId);
         return expense;
