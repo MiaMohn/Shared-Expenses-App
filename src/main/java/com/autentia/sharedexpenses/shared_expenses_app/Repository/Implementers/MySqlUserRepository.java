@@ -25,7 +25,7 @@ public class MySqlUserRepository implements IUserRepository {
     public static final String INSERT_USER = "INSERT INTO User(name) VALUES (?)";
     public static final String UPDATE_USER = "UPDATE User SET name = ? WHERE id = ? ";
     public static final String DELETE_USER_BY_ID = "DELETE FROM User WHERE id = ? ";
-
+    public static final String DOES_USER_EXISTS = "SELECT COUNT(*) FROM User WHERE id = ?";
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -69,6 +69,11 @@ public class MySqlUserRepository implements IUserRepository {
     @Override
     public void deleteById(long id) {
         jdbcTemplate.update(DELETE_USER_BY_ID, id);
+    }
+
+    @Override
+    public boolean existsById(long id) {
+        return jdbcTemplate.queryForObject(DOES_USER_EXISTS, Integer.class, id) > 0;
     }
 
 

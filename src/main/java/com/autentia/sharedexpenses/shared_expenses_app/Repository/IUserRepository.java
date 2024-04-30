@@ -19,4 +19,6 @@ public interface IUserRepository{
     void updateUser(User user, long id);
 
     void deleteById(long id);
+
+    boolean existsById(long id);
 }

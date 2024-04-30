@@ -55,16 +55,10 @@ public class RestUserController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getUserById(@PathVariable("id") long id){
 
-        try {
-
-            return userService.getUserById(id) //Transformar List<User> en List<UserResponse>
-                    .map(UserResponse::new)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
+        return userService.getUserById(id) //Transformar List<User> en List<UserResponse>
+                .map(UserResponse::new)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
 
     }
 
@@ -75,12 +69,8 @@ public class RestUserController {
 
         User userToUpdate = new User(id, request.getName());
 
-        try {
-            User user = userService.updateUser(userToUpdate, id);
-            return ResponseEntity.ok(new UserResponse(user));
-        } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
+        User user = userService.updateUser(userToUpdate, id);
+        return ResponseEntity.ok(new UserResponse(user));
 
     }
 
