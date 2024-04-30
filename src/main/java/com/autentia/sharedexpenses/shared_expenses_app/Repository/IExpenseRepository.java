@@ -21,4 +21,5 @@ public interface IExpenseRepository {
 
     void deleteById(long id);
 
+    boolean existsById(long id);
 }

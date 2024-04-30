@@ -26,6 +26,7 @@ public class MySqlExpenseRepository implements IExpenseRepository {
     public static final String FIND_EXPENSES_BY_USER_ID = "SELECT Expense.id AS id, Expense.description, Expense.amount, Expense.expense_date, User.id AS user_id, User.name FROM Expense JOIN User ON Expense.user_id = User.id WHERE User.id = ?";
     public static final String UPDATE_EXPENSE = "UPDATE Expense SET description = ?, amount = ?, user_id = ? WHERE id = ? ";
     public static final String DELETE_EXPENSE_BY_ID = "DELETE FROM Expense WHERE id = ?";
+    public static final String DOES_EXPENSE_EXISTS = "SELECT COUNT(*) FROM Expense WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
     private final UserService userService;
@@ -93,6 +94,12 @@ public class MySqlExpenseRepository implements IExpenseRepository {
     public void deleteById(long id) {
         jdbcTemplate.update(DELETE_EXPENSE_BY_ID, id);
     }
+
+    @Override
+    public boolean existsById(long id) {
+        return jdbcTemplate.queryForObject(DOES_EXPENSE_EXISTS, Integer.class, id) > 0;
+    }
+
 
 
     //Conversion functions
