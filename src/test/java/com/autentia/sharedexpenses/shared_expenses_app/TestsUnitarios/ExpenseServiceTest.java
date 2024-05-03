@@ -1,7 +1,5 @@
 package com.autentia.sharedexpenses.shared_expenses_app.TestsUnitarios;
 
-import com.autentia.sharedexpenses.shared_expenses_app.Controllers.DTOs.Requests.ExpenseRequest;
-import com.autentia.sharedexpenses.shared_expenses_app.Controllers.DTOs.Response.ExpenseResponse;
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.Expense;
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
 import com.autentia.sharedexpenses.shared_expenses_app.Repository.IExpenseRepository;
@@ -17,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -53,14 +50,7 @@ public class ExpenseServiceTest {
         verify(expenseRepository, Mockito.times(1)).findAll();
 
         assertEquals(expenses.size(), result.size());
-
-        List<ExpenseResponse> expected = expenses.stream()
-                .map(ExpenseResponse::new)
-                .toList();
-
-        assertThat(result)
-                .usingRecursiveComparison()
-                .isEqualTo(expected);
+        assertEquals(expenses, result);
 
     }
 
@@ -68,12 +58,16 @@ public class ExpenseServiceTest {
     public void shouldUseRepositoryWhenCreatingExpense() {
 
         User user = new User(1L, "Jasmine");
-        ExpenseRequest expenseRequest = new ExpenseRequest(1L, "Cena", 60.00, 1L);
+        long userId = 1L;
+        String description = "Cena";
+        double amount = 60.00;
 
-        when(userRepository.findById(expenseRequest.getUser_id())).thenReturn(Optional.of(user));
+        when(userRepository.existsById(userId)).thenReturn(true);
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
-        expenseService.createExpense(expenseRequest.getUser_id(), expenseRequest.getDescription(), expenseRequest.getAmount());
+        expenseService.createExpense(userId, description, amount);
 
+        verify(userRepository).existsById(1L);
         verify(userRepository).findById(1L);
         verify(expenseRepository).save(any(Expense.class));
 
@@ -86,12 +80,12 @@ public class ExpenseServiceTest {
         long id = 2L;
         Expense expected = new Expense(2L, "Cena", 60.00, new User(1L, "Nani"), date);
 
+        when(expenseRepository.existsById(id)).thenReturn(true);
         when(expenseRepository.findById(id)).thenReturn(Optional.of(expected));
 
         Optional<Expense> result = expenseService.getExpenseById(id);
 
         verify(expenseRepository).findById(id);
-
 
         assertTrue(result.isPresent(), "Expense must exist");
         assertEquals(expected, result.get());
@@ -109,20 +103,15 @@ public class ExpenseServiceTest {
                 new Expense(3L, "Museo", 12.00, new User(2L, "Jasmine"), date)
         );
 
+        when(userRepository.existsById(id)).thenReturn(true);
         when(expenseRepository.findByUserId(id)).thenReturn(expenses);
 
         List<Expense> result = expenseService.getExpenseByUserId(id);
 
+        verify(userRepository).existsById(id);
         verify(expenseRepository).findByUserId(id);
 
-        List<ExpenseResponse> expected = expenses.stream()
-                .map(ExpenseResponse::new)
-                .toList();
-
-        assertThat(result)
-                .usingRecursiveComparison()
-                .isEqualTo(expected);
-
+        assertEquals(expenses, result);
     }
 
     @Test
@@ -130,25 +119,30 @@ public class ExpenseServiceTest {
 
         Timestamp date = new Timestamp(System.currentTimeMillis());
         long id = 1L;
-        User user = new User(1L, "Nani");
-        Expense existingExpense = new Expense(1L, "Ropa", 54.00, user, date);
-        ExpenseRequest request = new ExpenseRequest(1L, "Cena", 60.00, 1L);
+        User user = new User(id, "Nani");
+        Expense existingExpense = new Expense(id, "Ropa", 54.00, user, date);
+        String newDescription = "Cena";
+        double newAmount = 60.00;
 
-        when(userRepository.findById(request.getUser_id())).thenReturn(Optional.of(user));
+        when(userRepository.existsById(user.getId())).thenReturn(true);
+        when(expenseRepository.existsById(id)).thenReturn(true);
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         when(expenseRepository.findById(id)).thenReturn(Optional.of(existingExpense));
 
-        Expense expected = new Expense(1L, "Cena", 60.00, user, date);
+        Expense updatedExpense = new Expense(id, newDescription, newAmount, user, date);
+        doNothing().when(expenseRepository).update(any(Expense.class), eq(id));
 
-        Expense result = expenseService.updateExpense(request.getUser_id(), id, request.getDescription(), request.getAmount());
+        Expense result = expenseService.updateExpense(user.getId(), id, newDescription, newAmount);
 
+        verify(userRepository).existsById(user.getId());
         verify(userRepository).findById(user.getId());
+        verify(expenseRepository).existsById(id);
         verify(expenseRepository).findById(id);
         verify(expenseRepository).update(any(Expense.class), eq(id));
 
-        assertThat(result)
-                .usingRecursiveComparison()
-                .isEqualTo(expected);
-
+        assertEquals(updatedExpense.getDescription(), result.getDescription());
+        assertEquals(updatedExpense.getAmount(), result.getAmount());
+        assertEquals(updatedExpense.getUser(), result.getUser());
     }
 
     @Test
@@ -156,6 +150,7 @@ public class ExpenseServiceTest {
 
         long id = 1L;
 
+        when(expenseRepository.existsById(id)).thenReturn(true);
         doNothing().when(expenseRepository).deleteById(id);
 
         Boolean result = expenseService.deleteExpense(id);

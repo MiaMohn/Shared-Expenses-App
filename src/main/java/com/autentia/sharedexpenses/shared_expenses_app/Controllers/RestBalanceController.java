@@ -1,6 +1,5 @@
 package com.autentia.sharedexpenses.shared_expenses_app.Controllers;
 
-import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
 import com.autentia.sharedexpenses.shared_expenses_app.Services.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +24,4 @@ public class RestBalanceController {
         return ResponseEntity.ok(balances);
 
     }
-
-    /*public ResponseEntity<Map<User, Double>> getbalances() {
-
-        Map<User, Double> balances = balanceService.calculateUsersBalance();
-
-        return ResponseEntity.ok(balances);
-
-    }*/
 }

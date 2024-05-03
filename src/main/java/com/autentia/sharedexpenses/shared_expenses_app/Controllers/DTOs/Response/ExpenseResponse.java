@@ -2,10 +2,12 @@ package com.autentia.sharedexpenses.shared_expenses_app.Controllers.DTOs.Respons
 
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.Expense;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.EqualsAndHashCode;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+@EqualsAndHashCode
 public class ExpenseResponse {
 
     private final Long id;
