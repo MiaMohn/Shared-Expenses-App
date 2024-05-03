@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -40,9 +41,7 @@ public class UserServiceTest {
 
         verify(userRepository, Mockito.times(1)).findAll();
 
-        assertEquals(2, userResponse.size());
-        assertEquals("Jasmine", userResponse.get(0).getName());
-        assertEquals("Nani", userResponse.get(1).getName());
+        assertThat(userResponse).isEqualTo(users);
 
     }
 
@@ -67,6 +66,7 @@ public class UserServiceTest {
         User userExpected = new User(2L, "Nani");
 
         when(userRepository.findById(id)).thenReturn(Optional.of(userExpected));
+        when(userRepository.existsById(id)).thenReturn(true);
 
         Optional<User> result = userService.getUserById(id);
 
@@ -78,16 +78,17 @@ public class UserServiceTest {
     @Test
     public void shouldUseRepositoryWhenUpdatingUser() {
 
-        long id = 2L;
-        User user = new User(2L, "Nani");
-        User expected = new User(2L, "Jasmine");
+        long id = 1L;
+        User user = new User(id, "Nani");
+        User expected = new User(id, "Jasmine");
 
         when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(userRepository.existsById(id)).thenReturn(true);
 
         User updatedUser = userService.updateUser(expected, id);
 
         verify(userRepository).findById(id);
-        verify(userRepository).updateUser(any(User.class), eq(id));
+        verify(userRepository).updateUser(expected, id);
 
         assertEquals("Jasmine", updatedUser.getName());
 
@@ -99,6 +100,7 @@ public class UserServiceTest {
         long id = 1L;
 
         doNothing().when(userRepository).deleteById(id);
+        when(userRepository.existsById(id)).thenReturn(true);
 
         Boolean result = userService.deleteUser(id);
 

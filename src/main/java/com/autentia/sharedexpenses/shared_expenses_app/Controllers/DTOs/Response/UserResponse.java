@@ -1,7 +1,9 @@
 package com.autentia.sharedexpenses.shared_expenses_app.Controllers.DTOs.Response;
 
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class UserResponse {
 
     private final Long id;
