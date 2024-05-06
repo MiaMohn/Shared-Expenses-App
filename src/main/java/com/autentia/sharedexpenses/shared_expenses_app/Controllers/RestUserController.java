@@ -7,7 +7,7 @@ import com.autentia.sharedexpenses.shared_expenses_app.Services.Exceptions.UserN
 import com.autentia.sharedexpenses.shared_expenses_app.Services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +41,7 @@ public class RestUserController {
     //Create a new user:
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void createUser(@RequestBody UserRequest userRequest){
 
         User user = new User(userRequest.getId(), userRequest.getName());
