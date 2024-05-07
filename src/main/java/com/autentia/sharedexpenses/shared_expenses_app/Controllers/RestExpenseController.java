@@ -8,11 +8,9 @@ import com.autentia.sharedexpenses.shared_expenses_app.Services.ExpenseService;
 import com.autentia.sharedexpenses.shared_expenses_app.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,7 +24,7 @@ public class RestExpenseController {
         this.expenseService = expenseService;
     }
 
-    //List all users:
+    //List all expenses:
 
     @GetMapping
     public List<ExpenseResponse> getExpenses(){
@@ -42,7 +40,7 @@ public class RestExpenseController {
     //Create a new expense:
 
     @PostMapping
-
+    @ResponseStatus(HttpStatus.CREATED)
     public void createExpense(@RequestBody ExpenseRequest expenseRequest) {
         this.expenseService.createExpense(expenseRequest.getUser_id(), expenseRequest.getDescription(), expenseRequest.getAmount());
     }
