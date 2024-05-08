@@ -1,7 +1,6 @@
-package com.autentia.sharedexpenses.shared_expenses_app.TestsIntegrados;
+package com.autentia.sharedexpenses.shared_expenses_app.TestsIntegrados.Controllers;
 
 import com.autentia.sharedexpenses.shared_expenses_app.Services.BalanceService;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

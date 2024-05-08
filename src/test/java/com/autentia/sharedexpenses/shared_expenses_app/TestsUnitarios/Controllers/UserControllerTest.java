@@ -1,4 +1,4 @@
-package com.autentia.sharedexpenses.shared_expenses_app.TestsUnitarios;
+package com.autentia.sharedexpenses.shared_expenses_app.TestsUnitarios.Controllers;
 
 import com.autentia.sharedexpenses.shared_expenses_app.Controllers.DTOs.Requests.UserRequest;
 import com.autentia.sharedexpenses.shared_expenses_app.Controllers.DTOs.Response.UserResponse;

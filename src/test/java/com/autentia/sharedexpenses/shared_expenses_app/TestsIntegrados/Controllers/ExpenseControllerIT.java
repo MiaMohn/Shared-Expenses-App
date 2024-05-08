@@ -1,4 +1,4 @@
-package com.autentia.sharedexpenses.shared_expenses_app.TestsIntegrados;
+package com.autentia.sharedexpenses.shared_expenses_app.TestsIntegrados.Controllers;
 
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.Expense;
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;

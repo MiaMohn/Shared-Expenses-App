@@ -1,4 +1,4 @@
-package com.autentia.sharedexpenses.shared_expenses_app.TestsIntegrados;
+package com.autentia.sharedexpenses.shared_expenses_app.TestsIntegrados.Repositories;
 
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
 import com.autentia.sharedexpenses.shared_expenses_app.Repository.Implementers.MySqlUserRepository;

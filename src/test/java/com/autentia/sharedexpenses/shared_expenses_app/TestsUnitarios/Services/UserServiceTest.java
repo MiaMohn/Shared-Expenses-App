@@ -1,4 +1,4 @@
-package com.autentia.sharedexpenses.shared_expenses_app.TestsUnitarios;
+package com.autentia.sharedexpenses.shared_expenses_app.TestsUnitarios.Services;
 
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
 import com.autentia.sharedexpenses.shared_expenses_app.Repository.IUserRepository;
