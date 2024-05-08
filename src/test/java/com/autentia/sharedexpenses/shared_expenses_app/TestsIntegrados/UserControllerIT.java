@@ -44,7 +44,7 @@ public class UserControllerIT {
     private List<User> users;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
 
         users = Arrays.asList(
                 new User(1L, "Maria"),
@@ -64,7 +64,7 @@ public class UserControllerIT {
     }
 
     @Test
-    void shouldGetUsers() throws Exception {
+    public void shouldGetUsers() throws Exception {
         mockMvc.perform(get("/user"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
@@ -74,14 +74,14 @@ public class UserControllerIT {
     }
 
     @Test
-    void shouldCreateUser() throws Exception {
+    public void shouldCreateUser() throws Exception {
         mockMvc.perform(post("/user")
                 .content("{\"name\": \"Nani\"}"))
                 .andExpect(status().isCreated());
     }
 
     @Test
-    void shouldGetUserById() throws Exception {
+    public void shouldGetUserById() throws Exception {
 
         for (User user : users) {   //Could use lambda but requires try/catch
             mockMvc.perform(get("/user/{id}", user.getId()))
@@ -91,7 +91,7 @@ public class UserControllerIT {
     }
 
     @Test
-    void shouldUpdateUser() throws Exception {
+    public void shouldUpdateUser() throws Exception {
         mockMvc.perform(put("/user/{id}", 1L)
                 .content("{\"name\": \"Updated name\"}"))
                 .andExpect(status().isOk())
@@ -99,7 +99,7 @@ public class UserControllerIT {
     }
 
     @Test
-    void shouldDeleteUser() throws Exception {
+    public void shouldDeleteUser() throws Exception {
         mockMvc.perform(delete("/user/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User deleted successfully"));

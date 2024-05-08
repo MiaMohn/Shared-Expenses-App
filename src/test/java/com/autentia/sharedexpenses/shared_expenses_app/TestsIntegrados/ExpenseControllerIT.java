@@ -152,5 +152,5 @@ public class ExpenseControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Expense deleted successfully"));
     }
-    
+
 }
