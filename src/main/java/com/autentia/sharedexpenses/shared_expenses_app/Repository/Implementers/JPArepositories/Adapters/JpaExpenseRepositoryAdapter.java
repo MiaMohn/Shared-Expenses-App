@@ -23,9 +23,15 @@ public class JpaExpenseRepositoryAdapter implements IExpenseRepository {
 
     @Override
     public List<Expense> findAll() {
-        return jpaExpenseRepository.findAll().stream()
+         List<Expense> expenses = jpaExpenseRepository.findAll().stream()
                 .map(ExpenseMapper.INSTANCE::toDomainFromEntity)
                 .collect(Collectors.toList());
+
+         for (Expense expense : expenses) {
+             expense.getUser().setName(jpaExpenseRepository.findExpenseFriendNameById(expense.getId()));
+         }
+
+         return expenses;
     }
 
     @Override
@@ -36,7 +42,11 @@ public class JpaExpenseRepositoryAdapter implements IExpenseRepository {
     @Override
     public Optional<Expense> findById(long id) {
         Optional<ExpenseEntity> expenseEntityOptional = jpaExpenseRepository.findById(id);
-        return expenseEntityOptional.map(ExpenseMapper.INSTANCE::toDomainFromEntity);
+        Optional<Expense> expense = expenseEntityOptional.map(ExpenseMapper.INSTANCE::toDomainFromEntity);
+
+        expense.get().getUser().setName(jpaExpenseRepository.findExpenseFriendNameById(expense.get().getId()));
+
+        return expense;
     }
 
     @Override

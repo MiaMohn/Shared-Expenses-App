@@ -24,11 +24,11 @@ public class ExpenseEntity {
     public ExpenseEntity(){}
 
     @Builder
-    public ExpenseEntity(Long id, String description, double amount, Long user_Id, Timestamp expenseDate) {
+    public ExpenseEntity(Long id, String description, double amount, Long user_id, Timestamp expenseDate) {
         this.id = id;
         this.description = description;
         this.amount = amount;
-        this.user_id = user_Id;
+        this.user_id = user_id;
         this.expenseDate = expenseDate;
     }
 
