@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface JpaExpenseRepository extends JpaRepository<ExpenseEntity,Long> {
 
     @Query(
-            value = "SELECT u.name from user u, expense e where u.id = e.user_id and e.id = :id",
+            value = "SELECT name FROM user JOIN expense ON user.id = expense.user_id WHERE expense.id = :id",
             nativeQuery = true
     )
 

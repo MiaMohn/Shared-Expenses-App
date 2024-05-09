@@ -62,9 +62,15 @@ public class JpaExpenseRepositoryAdapter implements IExpenseRepository {
             }
         }
 
-        return userExpenses.stream()
+        List<Expense> expenses = userExpenses.stream()
                 .map(ExpenseMapper.INSTANCE::toDomainFromEntity)
                 .collect(Collectors.toList());
+
+        for (Expense expense : expenses) {
+            expense.getUser().setName(jpaExpenseRepository.findExpenseFriendNameById(expense.getId()));
+        }
+
+        return expenses;
     }
 
     @Override
