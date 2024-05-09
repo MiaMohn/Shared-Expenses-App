@@ -43,7 +43,7 @@ public class MySqlExpenseRepository implements IExpenseRepository {
         List<ExpenseEntity> expenseEntityList = jdbcTemplate.query(FIND_ALL_EXPENSES, new ExpenseRowMapper());
 
         return expenseEntityList.stream().map(entity -> {
-            Optional<User> user = userService.getUserById(entity.getUser_Id());
+            Optional<User> user = userService.getUserById(entity.getUser_id());
             return user.map(u -> toExpense(entity, u)).orElse(null);
         }).collect(Collectors.toList());
 
@@ -64,7 +64,7 @@ public class MySqlExpenseRepository implements IExpenseRepository {
 
         try {
             ExpenseEntity entity = jdbcTemplate.queryForObject(FIND_EXPENSE_BY_ID, new ExpenseRowMapper(), id);
-            User user = userService.getUserById(entity.getUser_Id()).orElseThrow(() -> new RuntimeException("User not found"));
+            User user = userService.getUserById(entity.getUser_id()).orElseThrow(() -> new RuntimeException("User not found"));
             return Optional.of(toExpense(entity, user));
         } catch (EmptyResultDataAccessException ex) {
             return Optional.empty();

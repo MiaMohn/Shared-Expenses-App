@@ -18,7 +18,7 @@ public class ExpenseEntity {
     private Long id;
     private String description;
     private double amount;
-    private Long user_Id;
+    private Long user_id;
     private Timestamp expenseDate;
 
     public ExpenseEntity(){}
@@ -28,8 +28,27 @@ public class ExpenseEntity {
         this.id = id;
         this.description = description;
         this.amount = amount;
-        this.user_Id = user_Id;
+        this.user_id = user_Id;
         this.expenseDate = expenseDate;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public Timestamp getExpenseDate() {
+        return expenseDate;
+    }
 }

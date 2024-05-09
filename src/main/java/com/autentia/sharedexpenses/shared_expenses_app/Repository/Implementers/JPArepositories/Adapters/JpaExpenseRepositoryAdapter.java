@@ -47,7 +47,7 @@ public class JpaExpenseRepositoryAdapter implements IExpenseRepository {
         List<ExpenseEntity> userExpenses = new ArrayList<>();
 
         for (ExpenseEntity expense : allExpenses) {
-            if (expense.getUser_Id() == id) {
+            if (expense.getUser_id() == id) {
                 userExpenses.add(expense);
             }
         }
