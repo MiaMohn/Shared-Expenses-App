@@ -3,7 +3,7 @@ package com.autentia.sharedexpenses.shared_expenses_app.Repository.Entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="FriendGroup")
+@Table(name="friendGroup")
 public class GroupEntity {
 
     @Id
