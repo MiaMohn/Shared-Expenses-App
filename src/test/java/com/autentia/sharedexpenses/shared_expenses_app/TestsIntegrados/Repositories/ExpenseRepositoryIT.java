@@ -29,22 +29,22 @@ public class ExpenseRepositoryIT {
 
     @BeforeEach
     public void setup() {
-        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS User(id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(80) NOT NULL)");
-        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS Expense(" +
+        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS user(id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(80) NOT NULL)");
+        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS expense(" +
                 "id BIGINT AUTO_INCREMENT PRIMARY KEY, description VARCHAR(80) NOT NULL, " +
                 "amount DECIMAL(10,2) NOT NULL, expense_date TIMESTAMP, user_id BIGINT NOT NULL," +
-                "FOREIGN KEY(user_id) REFERENCES User(id) ON DELETE CASCADE)");
+                "FOREIGN KEY(user_id) REFERENCES user(id) ON DELETE CASCADE)");
 
-        jdbcTemplate.update("DELETE FROM Expense");
-        jdbcTemplate.update("DELETE FROM User");
+        jdbcTemplate.update("DELETE FROM expense");
+        jdbcTemplate.update("DELETE FROM user");
 
-        jdbcTemplate.update("INSERT INTO User (id, name) VALUES (1, 'Maria'), (2, 'Belen'), (3, 'Juan')");
+        jdbcTemplate.update("INSERT INTO user (id, name) VALUES (1, 'Maria'), (2, 'Belen'), (3, 'Juan')");
     }
 
     @AfterEach
     public void tearDown() {
-        jdbcTemplate.update("DELETE FROM Expense");
-        jdbcTemplate.update("DELETE FROM User");
+        jdbcTemplate.update("DELETE FROM expense");
+        jdbcTemplate.update("DELETE FROM user");
     }
 
     @Test

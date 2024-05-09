@@ -25,13 +25,13 @@ public class UserRepositoryIT {
 
     @BeforeEach
     public void setup() {
-        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS User(id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(80) NOT NULL)");
-        jdbcTemplate.update("DELETE FROM User");
+        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS user(id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(80) NOT NULL)");
+        jdbcTemplate.update("DELETE FROM user");
     }
 
     @AfterEach
     public void tearDown() {
-        jdbcTemplate.update("DELETE FROM User");
+        jdbcTemplate.update("DELETE FROM user");
     }
 
     @Test
