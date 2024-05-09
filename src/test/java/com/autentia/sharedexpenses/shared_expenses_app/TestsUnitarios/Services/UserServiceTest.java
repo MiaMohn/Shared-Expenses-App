@@ -1,4 +1,4 @@
-package com.autentia.sharedexpenses.shared_expenses_app.TestsUnitarios;
+package com.autentia.sharedexpenses.shared_expenses_app.TestsUnitarios.Services;
 
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
 import com.autentia.sharedexpenses.shared_expenses_app.Repository.IUserRepository;
@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -29,20 +30,24 @@ public class UserServiceTest {
     @Test
     public void shouldUseRepositoryWhenGettingUsersList() {
 
+        //Given:
+
         List<User> users = Arrays.asList(
                 new User(1L, "Jasmine"),
                 new User(2L, "Nani")
         );
 
+        //When:
+
         when(userRepository.findAll()).thenReturn(users);
 
         List<User> userResponse = userService.getUsers();
 
+        //Then:
+
         verify(userRepository, Mockito.times(1)).findAll();
 
-        assertEquals(2, userResponse.size());
-        assertEquals("Jasmine", userResponse.get(0).getName());
-        assertEquals("Nani", userResponse.get(1).getName());
+        assertThat(userResponse).isEqualTo(users);
 
     }
 
@@ -50,10 +55,16 @@ public class UserServiceTest {
     @Test
     public void shouldUseRepositoryWhenCreatingUser() {
 
+        //Given:
+
         User userRequest = new User(10L,"Jasmine");
         User userExpected = new User(10L,"Jasmine" );
 
+        //When:
+
         userService.createUser(userRequest);
+
+        //Then:
 
         verify(userRepository, Mockito.times(1)).save(userExpected);
 
@@ -63,12 +74,19 @@ public class UserServiceTest {
     @Test
     public void shouldUseRepositoryWhenGettingUserById() {
 
+        //Given:
+
         long id = 2L;
         User userExpected = new User(2L, "Nani");
 
+        //When:
+
         when(userRepository.findById(id)).thenReturn(Optional.of(userExpected));
+        when(userRepository.existsById(id)).thenReturn(true);
 
         Optional<User> result = userService.getUserById(id);
+
+        //Then:
 
         assertTrue(result.isPresent(), "User must exist");
         assertEquals(userExpected, result.get());
@@ -78,16 +96,23 @@ public class UserServiceTest {
     @Test
     public void shouldUseRepositoryWhenUpdatingUser() {
 
-        long id = 2L;
-        User user = new User(2L, "Nani");
-        User expected = new User(2L, "Jasmine");
+        //Given:
+
+        long id = 1L;
+        User user = new User(id, "Nani");
+        User expected = new User(id, "Jasmine");
+
+        //When:
 
         when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        when(userRepository.existsById(id)).thenReturn(true);
 
         User updatedUser = userService.updateUser(expected, id);
 
+        //Then:
+
         verify(userRepository).findById(id);
-        verify(userRepository).updateUser(any(User.class), eq(id));
+        verify(userRepository).updateUser(expected, id);
 
         assertEquals("Jasmine", updatedUser.getName());
 
@@ -96,11 +121,18 @@ public class UserServiceTest {
     @Test
     public void shouldUseRepositoryWhenDeletingUser() {
 
+        //Given:
+
         long id = 1L;
 
+        //When:
+
         doNothing().when(userRepository).deleteById(id);
+        when(userRepository.existsById(id)).thenReturn(true);
 
         Boolean result = userService.deleteUser(id);
+
+        //Then:
 
         verify(userRepository, Mockito.times(1)).deleteById(id);
 

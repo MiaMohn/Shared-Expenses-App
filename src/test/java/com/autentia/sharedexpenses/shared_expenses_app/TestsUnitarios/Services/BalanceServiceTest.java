@@ -1,4 +1,4 @@
-package com.autentia.sharedexpenses.shared_expenses_app.TestsUnitarios;
+package com.autentia.sharedexpenses.shared_expenses_app.TestsUnitarios.Services;
 
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.Expense;
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
@@ -35,6 +35,8 @@ public class BalanceServiceTest {
     @Test
     public void shouldCalculateUsersBalance() {
 
+        //Given:
+
         List<Expense> expenses = new ArrayList<>();
         List<User> users = Arrays.asList(
                 new User(1L, "Jasmine"),
@@ -49,6 +51,8 @@ public class BalanceServiceTest {
         expectedBalance.put("Jasmine", amountPerUser);
         expectedBalance.put("Nani", amountPerUser);
 
+        //When:
+
         Mockito.when(expenseService.getExpenses()).thenReturn(expenses);
         Mockito.when(userService.getUsers()).thenReturn(users);
         Mockito.when(balanceCalculator.calculateTotalAmountExpenses(expenses)).thenReturn(totalExpense);
@@ -57,6 +61,8 @@ public class BalanceServiceTest {
         Mockito.when(balanceCalculator.calculateBalance(users, expenses, amountPerUser)).thenReturn(expectedBalance);
 
         Map<String, Double> balance = balanceService.calculateUsersBalance();
+
+        //Then:
 
         Mockito.verify(expenseService, Mockito.times(1)).getExpenses();
         Mockito.verify(userService, Mockito.times(1)).getUsers();

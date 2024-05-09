@@ -37,21 +37,4 @@ public class BalanceService {
 
     }
 
-
-
-
-
-    /*public Map<User, Double> calculateUsersBalance() {
-
-        List<Expense> expenses = expenseService.getExpenses();
-        List<User> users = userService.getUsers();
-
-        double totalExpense = balanceCalculator.calculateTotalAmountExpenses(expenses);
-        int totalUsers = balanceCalculator.calculateTotalUsers(users);
-        double amountPerUser = balanceCalculator.calculateAmountPerUser(totalExpense, totalUsers);
-
-        return balanceCalculator.calculateBalance(users, expenses, amountPerUser);
-
-    }*/
-
 }

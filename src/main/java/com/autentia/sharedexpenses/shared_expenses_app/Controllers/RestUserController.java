@@ -3,10 +3,11 @@ package com.autentia.sharedexpenses.shared_expenses_app.Controllers;
 import com.autentia.sharedexpenses.shared_expenses_app.Controllers.DTOs.Requests.UserRequest;
 import com.autentia.sharedexpenses.shared_expenses_app.Controllers.DTOs.Response.UserResponse;
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
+import com.autentia.sharedexpenses.shared_expenses_app.Services.Exceptions.UserNotFoundException;
 import com.autentia.sharedexpenses.shared_expenses_app.Services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class RestUserController {
 
         List<User> users = this.userService.getUsers();
 
-        return users.stream() //Transformar List<User> en List<UserResponse>
+        return users.stream() //Convert List<User> in List<UserResponse>
                 .map(UserResponse::new)
                 .collect(Collectors.toList());
 
@@ -40,38 +41,30 @@ public class RestUserController {
     //Create a new user:
 
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody UserRequest userRequest){
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createUser(@RequestBody UserRequest userRequest){
 
         User user = new User(userRequest.getId(), userRequest.getName());
         this.userService.createUser(user);
-        return ResponseEntity.ok("User created successfully.");
 
     }
 
     //Find a user by their id:
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable("id") long id){
-
-        return userService.getUserById(id) //Transformar List<User> en List<UserResponse>
-                .map(UserResponse::new)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public UserResponse getUserById(@PathVariable("id") long id){
+        return userService.getUserById(id).map(UserResponse::new).orElseThrow(UserNotFoundException::new);
     }
 
     //Update user:
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody UserRequest request, @PathVariable("id") long id){
+    public UserResponse updateUser(@RequestBody UserRequest request, @PathVariable("id") long id){
 
         User userToUpdate = new User(id, request.getName());
+        User user = userService.updateUser(userToUpdate, id);
 
-        try {
-            User user = userService.updateUser(userToUpdate, id);
-            return ResponseEntity.ok(new UserResponse(user));
-        } catch(RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return new UserResponse(user);
 
     }
 

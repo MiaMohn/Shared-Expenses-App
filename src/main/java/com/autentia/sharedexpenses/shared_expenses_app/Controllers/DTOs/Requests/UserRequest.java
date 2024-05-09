@@ -1,5 +1,8 @@
 package com.autentia.sharedexpenses.shared_expenses_app.Controllers.DTOs.Requests;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class UserRequest {
 
     //Variables
