@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 @Component
 public class MySqlExpenseRepository implements IExpenseRepository {
 
-    public static final String FIND_ALL_EXPENSES = "SELECT Expense.id AS id, Expense.description, Expense.amount, Expense.expense_date, User.id AS user_id, User.name FROM Expense JOIN User ON Expense.user_id = User.id ORDER BY Expense.expense_date DESC";
-    public static final String INSERT_EXPENSE = "INSERT INTO Expense(id, description, amount, expense_date, user_id) VALUES (?, ?, ?, ?, ?)";
-    public static final String FIND_EXPENSE_BY_ID = "SELECT Expense.id AS id, Expense.description, Expense.amount, Expense.expense_date, User.id AS user_id, User.name FROM Expense JOIN User ON Expense.user_id = User.id WHERE Expense.id = ?";
-    public static final String FIND_EXPENSES_BY_USER_ID = "SELECT Expense.id AS id, Expense.description, Expense.amount, Expense.expense_date, User.id AS user_id, User.name FROM Expense JOIN User ON Expense.user_id = User.id WHERE User.id = ?";
-    public static final String UPDATE_EXPENSE = "UPDATE Expense SET description = ?, amount = ?, user_id = ? WHERE id = ? ";
-    public static final String DELETE_EXPENSE_BY_ID = "DELETE FROM Expense WHERE id = ?";
-    public static final String DOES_EXPENSE_EXISTS = "SELECT COUNT(*) FROM Expense WHERE id = ?";
+    public static final String FIND_ALL_EXPENSES = "SELECT expense.id AS id, expense.description, expense.amount, expense.expense_date, user.id AS user_id, user.name FROM expense JOIN user ON expense.user_id = user.id ORDER BY expense.expense_date DESC";
+    public static final String INSERT_EXPENSE = "INSERT INTO expense(id, description, amount, expense_date, user_id) VALUES (?, ?, ?, ?, ?)";
+    public static final String FIND_EXPENSE_BY_ID = "SELECT expense.id AS id, expense.description, expense.amount, expense.expense_date, user.id AS user_id, user.name FROM expense JOIN user ON expense.user_id = user.id WHERE expense.id = ?";
+    public static final String FIND_EXPENSES_BY_USER_ID = "SELECT expense.id AS id, expense.description, expense.amount, expense.expense_date, user.id AS user_id, user.name FROM expense JOIN user ON expense.user_id = user.id WHERE user.id = ?";
+    public static final String UPDATE_EXPENSE = "UPDATE expense SET description = ?, amount = ?, user_id = ? WHERE id = ? ";
+    public static final String DELETE_EXPENSE_BY_ID = "DELETE FROM expense WHERE id = ?";
+    public static final String DOES_EXPENSE_EXISTS = "SELECT COUNT(*) FROM expense WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
     private final UserService userService;
@@ -43,7 +43,7 @@ public class MySqlExpenseRepository implements IExpenseRepository {
         List<ExpenseEntity> expenseEntityList = jdbcTemplate.query(FIND_ALL_EXPENSES, new ExpenseRowMapper());
 
         return expenseEntityList.stream().map(entity -> {
-            Optional<User> user = userService.getUserById(entity.getUser_Id());
+            Optional<User> user = userService.getUserById(entity.getUser_id());
             return user.map(u -> toExpense(entity, u)).orElse(null);
         }).collect(Collectors.toList());
 
@@ -64,7 +64,7 @@ public class MySqlExpenseRepository implements IExpenseRepository {
 
         try {
             ExpenseEntity entity = jdbcTemplate.queryForObject(FIND_EXPENSE_BY_ID, new ExpenseRowMapper(), id);
-            User user = userService.getUserById(entity.getUser_Id()).orElseThrow(() -> new RuntimeException("User not found"));
+            User user = userService.getUserById(entity.getUser_id()).orElseThrow(() -> new RuntimeException("User not found"));
             return Optional.of(toExpense(entity, user));
         } catch (EmptyResultDataAccessException ex) {
             return Optional.empty();

@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 @Component
 public class MySqlUserRepository implements IUserRepository {
 
-    public static final String FIND_ALL_USERS = "SELECT * FROM User";
-    public static final String FIND_USER_BY_ID = "SELECT * FROM User WHERE id = ?";
-    public static final String INSERT_USER = "INSERT INTO User(name) VALUES (?)";
-    public static final String UPDATE_USER = "UPDATE User SET name = ? WHERE id = ? ";
-    public static final String DELETE_USER_BY_ID = "DELETE FROM User WHERE id = ? ";
-    public static final String DOES_USER_EXISTS = "SELECT COUNT(*) FROM User WHERE id = ?";
+    public static final String FIND_ALL_USERS = "SELECT * FROM user";
+    public static final String FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?";
+    public static final String INSERT_USER = "INSERT INTO user(name) VALUES (?)";
+    public static final String UPDATE_USER = "UPDATE user SET name = ? WHERE id = ? ";
+    public static final String DELETE_USER_BY_ID = "DELETE FROM user WHERE id = ? ";
+    public static final String DOES_USER_EXISTS = "SELECT COUNT(*) FROM user WHERE id = ?";
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
