@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//Group service class, not in use, not finished
 @Service
 public class GroupService {
 
@@ -21,18 +22,25 @@ public class GroupService {
         this.groupRepository = groupRepository;
     }
 
-    //Métodos
+    //List all groups:
+
     public List<Group> getGroups(){
         return (ArrayList<Group>) groupRepository.findAll();
     }
+
+    //Create a new group:
 
     public void createGroup(Group group){
         groupRepository.save(group);
     }
 
+    //Find a group by its id:
+
     public Optional<Group> getGroupById(int id){
         return groupRepository.findById(id);
     }
+
+    //Update group:
 
     public Group updateGroup(GroupRequest request, int id){
         Group group = groupRepository.findById(id).orElseThrow(() -> new RuntimeException("Group not found"));;
@@ -42,6 +50,8 @@ public class GroupService {
         groupRepository.update(group, id);
         return group;
     }
+
+    //Delete group:
 
     public Boolean deleteGroup(int id){
 

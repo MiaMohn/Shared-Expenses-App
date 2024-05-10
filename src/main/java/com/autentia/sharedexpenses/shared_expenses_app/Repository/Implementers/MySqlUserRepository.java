@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Component
 public class MySqlUserRepository implements IUserRepository {
 
+    //Queries:
     public static final String FIND_ALL_USERS = "SELECT * FROM user";
     public static final String FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?";
     public static final String INSERT_USER = "INSERT INTO user(name) VALUES (?)";

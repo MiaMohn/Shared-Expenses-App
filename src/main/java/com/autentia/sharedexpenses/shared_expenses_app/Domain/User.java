@@ -4,11 +4,9 @@ import java.util.Objects;
 
 public class User {
 
-    //Variables
     private Long id;
     private String name;
 
-    //Full constructor
     public User(Long id, String name) {
         this.id = id;
         this.name = name;

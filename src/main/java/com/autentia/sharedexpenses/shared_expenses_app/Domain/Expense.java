@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 @EqualsAndHashCode
 public class Expense {
 
-    //Variables
     private final Long id;
     private String description;
     private double amount;

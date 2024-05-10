@@ -11,9 +11,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
+//Group Repository class, not finished
+
 @Component
 public class MySqlGroupRepository implements IGroupRepository {
 
+    //Queries:
     public static final String FIND_ALL_GROUPS = "SELECT * FROM FriendGroup";
     public static final String FIND_GROUP_BY_ID = "SELECT * FROM FriendGroup WHERE id = ?";
     public static final String INSERT_GROUP = "INSERT INTO FriendGroup(id, title, description) VALUES (?, ?, ?)";

@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Component
 public class MySqlExpenseRepository implements IExpenseRepository {
 
+    //Queries:
     public static final String FIND_ALL_EXPENSES = "SELECT expense.id AS id, expense.description, expense.amount, expense.expense_date, user.id AS user_id, user.name FROM expense JOIN user ON expense.user_id = user.id ORDER BY expense.expense_date DESC";
     public static final String INSERT_EXPENSE = "INSERT INTO expense(id, description, amount, expense_date, user_id) VALUES (?, ?, ?, ?, ?)";
     public static final String FIND_EXPENSE_BY_ID = "SELECT expense.id AS id, expense.description, expense.amount, expense.expense_date, user.id AS user_id, user.name FROM expense JOIN user ON expense.user_id = user.id WHERE expense.id = ?";

@@ -14,6 +14,7 @@ import java.util.Map;
 public class BalanceCalculator {
 
     //Function that calculates the total amount of shared expenses
+
     public double calculateTotalAmountExpenses(List<Expense> expenses) {
 
         double totalExpense = 0;
@@ -27,16 +28,18 @@ public class BalanceCalculator {
     }
 
     //Function that returns the total number of users
+
     public int calculateTotalUsers(List<User> users) {
         return users.size();
     }
 
     //Function that calculates the amount each user has to pay
+
     public double calculateAmountPerUser(double totalAmount, int totalUsers) {
         return totalAmount / totalUsers;
     }
 
-    //Function that calculates de balance of each User
+    //Function that calculates the balance per user
 
     public Map<String, Double> calculateBalance(List<User> users, List<Expense> expenses, double amountPerUser) {
 
@@ -64,32 +67,5 @@ public class BalanceCalculator {
         return balance;
 
     }
-
-
-
-
-    /*public Map<User, Double> calculateBalance(List<User> users, List<Expense> expenses, double amountPerUser) {
-
-        Map<User, Double> balance = new HashMap<>();
-        Map<Long, Double> totalExpensePerUser = new HashMap<>();
-
-        for (User user : users) {
-            totalExpensePerUser.put(user.getId(), 0.0);
-        }
-
-        for (Expense expense : expenses) {
-            totalExpensePerUser.merge(expense.getUser().getId(), expense.getAmount(), Double::sum);
-        }
-
-        for (User user : users) {
-
-            double userExpense = totalExpensePerUser.get(user.getId());
-
-            balance.put(user, (userExpense - amountPerUser));
-        }
-
-        return balance;
-
-    }*/
 
 }

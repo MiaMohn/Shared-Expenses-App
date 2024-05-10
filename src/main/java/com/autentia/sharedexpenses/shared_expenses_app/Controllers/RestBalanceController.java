@@ -16,6 +16,8 @@ public class RestBalanceController {
     @Autowired
     private BalanceService balanceService;
 
+    //List balances for all users:
+
     @GetMapping
     public ResponseEntity<Map<String, Double>> getbalances() {
 

@@ -2,6 +2,8 @@ package com.autentia.sharedexpenses.shared_expenses_app.Repository.Entities;
 
 import jakarta.persistence.*;
 
+//Group entity class, not finished
+
 @Entity
 @Table(name="friendGroup")
 public class GroupEntity {
