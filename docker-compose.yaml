@@ -1,0 +1,23 @@
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=SharedExpensesDB
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_HOST=mysql
+    depends_on:
+      - mysql
+
+volumes:
+  db:
