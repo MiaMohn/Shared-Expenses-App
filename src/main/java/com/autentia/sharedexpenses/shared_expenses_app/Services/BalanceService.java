@@ -3,6 +3,7 @@ package com.autentia.sharedexpenses.shared_expenses_app.Services;
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.Expense;
 import com.autentia.sharedexpenses.shared_expenses_app.Domain.User;
 import com.autentia.sharedexpenses.shared_expenses_app.Utilities.BalanceCalculator;
+import com.autentia.sharedexpenses.shared_expenses_app.Utilities.MinTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,12 @@ public class BalanceService {
 
         return balanceCalculator.calculateBalance(users, expenses, amountPerUser);
 
+    }
+
+    public List<String> calculateMinTransactions() {
+        Map<String, Double> balance = calculateUsersBalance();
+        List<String> transactions = MinTransaction.determinesMinTransactions(balance);
+        return transactions;
     }
 
 }

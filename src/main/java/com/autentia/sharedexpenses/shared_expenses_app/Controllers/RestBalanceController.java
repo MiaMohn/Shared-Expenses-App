@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,11 +20,19 @@ public class RestBalanceController {
     //List balances for all users:
 
     @GetMapping
-    public ResponseEntity<Map<String, Double>> getbalances() {
+    public ResponseEntity<Map<String, Double>> getBalances() {
 
         Map<String, Double> balances = balanceService.calculateUsersBalance();
 
         return ResponseEntity.ok(balances);
 
+    }
+
+    //List the minimum transactions:
+
+    @GetMapping(path = "/transactions")
+    public List<String> getTransactions() {
+        List<String> transactions = balanceService.calculateMinTransactions();
+        return transactions;
     }
 }
